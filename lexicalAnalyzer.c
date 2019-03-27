@@ -113,7 +113,7 @@ void addChar() {
 /**********************************************************/
 /* getChar - a function to get the next character of input and determine its character class */
 void getChar() {
-	if ((nextChar = getchar()) != EOF) {
+	if ((nextChar = getc(stdin)) != EOF) {
 		if (isalpha(nextChar))
 			charClass = LETTER;
 		else if (isdigit(nextChar))
