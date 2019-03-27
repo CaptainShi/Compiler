@@ -1,10 +1,11 @@
+
 //using namespace std;
 
 /* Global declarations */
 /* Variables */
-char lexeme [100];
-char nextChar;
-int lexLen;
+extern char lexeme [100];
+extern char nextChar;
+extern int lexLen;
 //FILE *in_fp, *fopen();
 /* Function declarations */
 extern void addChar();
@@ -15,18 +16,17 @@ extern int stmt();
 extern int expr();
 extern int term();
 extern int factor();
-extern int negatives();
 extern int powers();
+extern int negative();
 extern void error(const char *);
 /* Character classes */
-int charClass;
+extern int charClass;
 #define LETTER 0
 #define DIGIT 1
 #define OPERATOR 99
-#define END 55
 /* Token codes */
-int token;
-int nextToken;
+extern int token;
+extern int nextToken;
 #define INT_LIT 10
 #define IDENT 11
 #define ASSIGN_OP 20
@@ -37,6 +37,7 @@ int nextToken;
 #define LEFT_PAREN 25
 #define RIGHT_PAREN 26
 #define EQUAL 27
+
 #define SYM_DEBUG 0 //used to turn on/off debug messages in
  //symbol table methods
 #define TABLE_SIZE 211 //Studies show it should be a prime number
