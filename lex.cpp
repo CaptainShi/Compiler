@@ -6,6 +6,7 @@
 #include "symbolTable.h"
 
 Symbol_table table;
+Symbol_ptr symbol_ptr;
 
 using namespace std;
 
@@ -13,13 +14,16 @@ using namespace std;
 int main ()
 {
    getChar();
-   do 
-   {
-      lex();
-      int value = expr();
-      cout << "MAIN" << value << endl;
-   }
-   while(nextToken != 'q');
+     do 
+     {
+        lex();
+        //int value = expr();
+        int value = stmt();
+        cout << "MAIN" << value << endl;
+        getChar();
+     }
+     while(nextToken != EOF);
+   
 
    return 0;
 
@@ -59,8 +63,15 @@ int main ()
  nextToken = DIV_OP;
  break;
  case '=':
- addChar();
- nextToken = EQUAL;
+   addChar();
+   nextToken = EQUAL;
+   cout << "Equals" << endl;
+ break;
+case '\n':
+   addChar();
+   nextToken = NEWLINE;
+   break;
+
  default:
  addChar();
  nextToken = EOF;
@@ -89,11 +100,13 @@ void addChar()
 void getChar()
 {
  //need to chnage to all io redirection
- if ((nextChar = getchar()) != 'q') {
+ if ((nextChar = getchar()) != EOF) {
     if (isalpha(nextChar))
        charClass = LETTER;
     else if (isdigit(nextChar))
        charClass = DIGIT;
+    else if(nextChar == '\n')
+       charClass = NEWLINE;
     else
     charClass = OPERATOR;
  } else
@@ -109,14 +122,9 @@ void getNonBlank()
 {
   //WILL NEED TO FIX TO NOT REMOVE NEWLINES
   //ALSO NEED THE NEWLINE TO BE THE END OF LINE SYMBOL
-  if(nextChar == '\n'){
-    cout << "newline" << endl;
-    getChar();
-  }
-   else{ 
-      while (isspace(nextChar))
+      while (isspace(nextChar) && nextChar != '\n')
         getChar();
-  }
+  
 }
 /*****************************************************/
 /* lex - a simple lexical analyzer for arithmetic
@@ -125,6 +133,7 @@ int lex()
 {
     lexLen = 0;
     getNonBlank();
+
     switch (charClass) {
     /* Parse identifiers - once you find the first
     letter, read and add char by char to lexeme. */
@@ -140,9 +149,18 @@ int lex()
     //NEED TO STORE THE IDENT IN THE SYMBOL TABLE
     //LOOKUP TO SEE IF IT IS THERE IF NOT THEN INSERT
     //IF IT IS THEN ADJUST VALUE
+    
+    //put in table  
+    if(symbol_ptr == NULL){
+         //cout << "ABOUT TO INSERT" << endl;
+         symbol_ptr = table.insert(lexeme);
+        // cout << "INSERTED" << endl;
+     }            
+    
 
     nextToken = IDENT;
     break;
+
  /* Parse integer literals - once you find the first
  digit, read and add digits to lexeme. */
     case DIGIT:
@@ -154,6 +172,7 @@ int lex()
     }
     nextToken = INT_LIT;
     break;
+    
     /* Parentheses and operators */
     case OPERATOR:
     /* Call lookup to identify the type of operator */
@@ -171,6 +190,6 @@ int lex()
     break;
 
  } /* End of switch */
- printf("Next token is: %d, Next lexeme is %s\n", nextToken, lexeme);
+ //printf("Next token is: %d, Next lexeme is %s\n", nextToken, lexeme);
  return nextToken;
 }

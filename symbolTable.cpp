@@ -119,10 +119,10 @@ void Symbol_table::dump_table(void) {
         //use pointer to get the value
         //return val
         while(start != NULL){
-            cout << start->id << "=" << start->value << " ";
+            cout << start->id << "=" << start->value << " "<< endl;
             start=start->next;
         }
-        cout << endl;
+        //cout << endl;
     }
 
    //print all the store nodes to screen
