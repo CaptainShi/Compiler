@@ -34,7 +34,7 @@ int stmt()
 
   // cout << "Next token is " << nextToken << endl;
    //int number = factor();
-//   lex();
+   //   lex();
    //Case ID = expr
    if(nextToken == EQUAL){
     // cout << "in id = expr" << endl; 
@@ -49,7 +49,7 @@ int stmt()
       //loads into symbol table
       //symbol_ptr = table.lookup(symbol_ptr); 
       symbol_ptr->putval(value);
-
+      symbol_ptr = NULL;
       //cout << symbol_ptr->getid();
 
       //return value;
@@ -63,8 +63,10 @@ int stmt()
    //}
  
    //case Dump
-   //if(nextToken == DUMP)
+   if(nextToken == DUMP){
       table.dump_table();
+      cout << "dump" << endl;
+   }
 
     return value;
 

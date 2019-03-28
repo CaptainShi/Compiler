@@ -38,6 +38,7 @@ int nextToken;
 #define RIGHT_PAREN 26
 #define EQUAL 27
 #define NEWLINE 28
+#define DUMP 29
 #define SYM_DEBUG 0 //used to turn on/off debug messages in
  //symbol table methods
 #define TABLE_SIZE 211 //Studies show it should be a prime number

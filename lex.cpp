@@ -19,7 +19,7 @@ int main ()
         lex();
         //int value = expr();
         int value = stmt();
-        cout << "MAIN" << value << endl;
+        cout << value << endl;
         getChar();
      }
      while(nextToken != EOF);
@@ -151,14 +151,14 @@ int lex()
     //IF IT IS THEN ADJUST VALUE
     
     //put in table  
-    if(symbol_ptr == NULL){
-         //cout << "ABOUT TO INSERT" << endl;
-         symbol_ptr = table.insert(lexeme);
-        // cout << "INSERTED" << endl;
-     }            
     
+    if(lexeme == "dump")
+       nextToken = DUMP;
+    else{
+       nextToken = IDENT;
+       symbol_ptr = table.insert(lexeme);
+    }
 
-    nextToken = IDENT;
     break;
 
  /* Parse integer literals - once you find the first
