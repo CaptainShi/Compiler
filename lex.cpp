@@ -4,6 +4,7 @@
 #include<stdio.h>
 #include<ctype.h>
 #include "symbolTable.h"
+#include<string.h>
 
 Symbol_table table;
 Symbol_ptr symbol_ptr;
@@ -19,7 +20,7 @@ int main ()
         lex();
         //int value = expr();
         int value = stmt();
-        cout << value << endl;
+        //cout << symbol_ptr->getid() << "=" << value << endl;
         getChar();
      }
      while(nextToken != EOF);
@@ -65,8 +66,11 @@ int main ()
  case '=':
    addChar();
    nextToken = EQUAL;
-   cout << "Equals" << endl;
  break;
+ case '^':
+   addChar();
+   nextToken = EXPO;
+   break;
 case '\n':
    addChar();
    nextToken = NEWLINE;
@@ -150,11 +154,16 @@ int lex()
     //LOOKUP TO SEE IF IT IS THERE IF NOT THEN INSERT
     //IF IT IS THEN ADJUST VALUE
     
-    //put in table  
+    //put in table 
     
-    if(lexeme == "dump")
+    if(strcmp(lexeme,"dump") == 0){
        nextToken = DUMP;
-    else{
+    }
+    else if (strcmp(lexeme,"quit") == 0){
+       nextToken = QUIT;
+    }
+    else
+    {
        nextToken = IDENT;
        symbol_ptr = table.insert(lexeme);
     }

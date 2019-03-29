@@ -4,6 +4,7 @@
 #include<ctype.h>
 #include<stdio.h>
 #include<stdlib.h>
+#include<math.h>
 #include "symbolTable.h"
 
 extern Symbol_table table;
@@ -49,6 +50,9 @@ int stmt()
       //loads into symbol table
       //symbol_ptr = table.lookup(symbol_ptr); 
       symbol_ptr->putval(value);
+
+      //Prints the value
+      cout << "        " << symbol_ptr->getid() << "=" << value << endl;
       symbol_ptr = NULL;
       //cout << symbol_ptr->getid();
 
@@ -56,17 +60,18 @@ int stmt()
    }
 
 
-   //case QUIT
-   //add quit
-   //if(nextToken == QUIT){
-   //   return -1;
-   //}
- 
-   //case Dump
    if(nextToken == DUMP){
+      cout << "Dump" << endl;
+      cout << "================" << endl;
       table.dump_table();
-      cout << "dump" << endl;
+      cout << "================" << endl;
    }
+   
+   if(nextToken == QUIT){
+      nextToken = EOF;
+      exit(1);
+   }
+
 
     return value;
 
@@ -81,7 +86,8 @@ int expr()
     int value2 = 0;
    
  /* Parse the first factor */
-     value1 = term();
+     //value1 = term();
+     value1 = powers();
      //cout << value1 << endl;
      //cout << "NEXT TOKEN " << nextToken << endl;
    //  lex();
@@ -178,21 +184,13 @@ int factor()
     
     //if is ident
     else if (nextToken == IDENT){
-        cout << "in IDENT" << endl;
        /* Get the next token */
         //get value from the table
-        symbol_ptr = table.lookup(lexeme);
-       // cout << "symbol_ptr is " << symbol_ptr << endl;
-       // if(symbol_ptr == NULL){
-        //   cout << "ABOUT TO INSERT" << endl;
-        //   table.insert(lexeme);
-        //   cout << "INSERTED" << endl;
-        //}            
+        //symbol_ptr = table.lookup(lexeme);
  
         //if there is a value
         int result;
         result = symbol_ptr->getval();
-        cout << "RESULT " << result << endl;
         //then return
         return result;
     }
@@ -205,7 +203,7 @@ int factor()
       // cout << "inleft paren" << endl;
        int value = expr();
        if (nextToken == RIGHT_PAREN){
-          //lex();
+         // lex();
         //  cout << "(expr) " << value << endl;
           return value;    
           }
@@ -235,6 +233,21 @@ int negatives()
 int powers()
 {
 //will return a number that has been raised to a power
+
+   int value1 = term();
+
+   while(nextToken == EXPO){
+      lex();
+      int value2 = term();
+   
+      value1 = pow(value1, value2);
+
+      lex();
+
+   }
+
+   return value1;
+
 }
 
 
