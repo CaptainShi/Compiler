@@ -1,10 +1,9 @@
 CC=g++
 bc:	topdown.o lex.o symbolTable.o symbolNode.o
-		$(CC) -o bc topdown.o lex.o symbolTable.o symbolNode.o -lfl -lm
+		$(CC) -o bc topdown.o lex.o symbolTable.o symbolNode.o -lm
 
 topdown.o:		topdown.cpp general.h 
 						$(CC) -c topdown.cpp  
-
 
 lex.o:		lex.cpp general.h
 						$(CC) -c lex.cpp

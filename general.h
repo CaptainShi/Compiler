@@ -17,6 +17,8 @@ extern int term();
 extern int factor();
 extern int negatives();
 extern int powers();
+extern bool cond();
+extern void optionalElse();
 extern void error(const char *);
 /* Character classes */
 int charClass;
@@ -45,7 +47,7 @@ int nextToken;
 #define IF 33
 #define THEN 34
 #define ELSE 35
-#define fi 36
+#define FI 36
 #define WHILE 37
 #define DO 38
 #define DONE 39
@@ -53,15 +55,15 @@ int nextToken;
 #define POUND 41
 #define EE 42
 #define NE 43
-#define LESSTHAN 44
-#define GREATERTHAN 45
+#define LESSTHEN 44
+#define GREATERTHEN 45
 #define LE 46
 #define GE 47
 
 #define SYM_DEBUG 0 //used to turn on/off debug messages in
  //symbol table methods
 #define TABLE_SIZE 211 //Studies show it should be a prime number
-#define MAX_ID_LENGTH 6 //Indicates the maximum number of characters
+#define MAX_ID_LENGTH 1 //Indicates the maximum number of characters
  //to make the id's unique
 #ifndef V_TYPE
 #define V_TYPE

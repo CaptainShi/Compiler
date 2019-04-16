@@ -33,12 +33,10 @@ int main ()
 /*****************************************************/
 /* lookup - a function to lookup operators and parentheses
  and return the token */
- int lookup(char ch)
-{
- switch (ch) {
-
-    case '(':
-       addChar();
+int lookup(char ch) {
+   switch (ch) {
+   case '(':
+      addChar();
        nextToken = LEFT_PAREN;
     break;
 
@@ -86,6 +84,16 @@ int main ()
       addChar();
       nextToken = MOD;
    break;
+  
+   case '<':
+     cout << "In look up < " << endl;
+     addChar();
+     nextToken = LESSTHEN;
+     break;
+   case '>':
+     addChar();
+     nextToken = GREATERTHEN;
+     break;
 
    default:
       addChar();
@@ -153,25 +161,41 @@ int lex()
     /* Parse identifiers - once you find the first
     letter, read and add char by char to lexeme. */
     case LETTER:
-    addChar();
-   // table.insert(lexeme);
-    getChar();
-    /* After first char, you may use either char or digits */
-    while (charClass == LETTER || charClass == DIGIT) {
-    addChar();
-    getChar();
-    }
-    //NEED TO STORE THE IDENT IN THE SYMBOL TABLE
-    //LOOKUP TO SEE IF IT IS THERE IF NOT THEN INSERT
-    //IF IT IS THEN ADJUST VALUE
+      addChar();
+      // table.insert(lexeme);
+      getChar();
+      /* After first char, you may use either char or digits */
+      while (charClass == LETTER || charClass == DIGIT) {
+        addChar();
+        getChar();
+      }
+      //NEED TO STORE THE IDENT IN THE SYMBOL TABLE
+      //LOOKUP TO SEE IF IT IS THERE IF NOT THEN INSERT
+      //IF IT IS THEN ADJUST VALUE
     
-    //put in table 
+      //put in table 
     
     if(strcmp(lexeme,"dump") == 0){
        nextToken = DUMP;
     }
     else if (strcmp(lexeme,"quit") == 0){
        nextToken = QUIT;
+    } else if (strcmp(lexeme, "if") == 0) {
+        nextToken = IF;
+    } else if (strcmp(lexeme, "then") == 0) {
+      nextToken = THEN;
+    } else if (strcmp(lexeme, "else") == 0) {
+      nextToken = ELSE;
+    } else if (strcmp(lexeme, "fi") == 0) {
+      nextToken = FI;
+    } else if (strcmp(lexeme, "while") == 0) {
+      nextToken = WHILE;
+    } else if (strcmp(lexeme, "do") == 0) {
+      nextToken = DO;
+    } else if (strcmp(lexeme, "done") == 0) {
+      nextToken = DONE;
+    } else if (strcmp(lexeme, "print") == 0) {
+      nextToken = PRINT;
     }
     else
     {

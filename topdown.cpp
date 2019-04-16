@@ -28,11 +28,35 @@ int stmt()
 {
     int value = 0;
     Symbol_ptr s_ptr;
+    
+    //if the next token is 'if'
+    if (nextToken == IF) {
+      //cout << "In If" << endl;
+      lex();
+      bool condition = cond();
+      //cout << "Condition Status:" << condition << endl;
+      if (condition == 1) {
+         cout << "The condition is true" << endl;
+         lex();
+         if (nextToken == THEN) {
+            lex();
+            int value = stmt();
+         }
+      }   
+      cout << "Next token before going into optional else is " <<  nextToken << endl;
+      while (nextToken != ELSE && nextToken != FI) {
+         lex();
+         cout << "Next token in the while loop is " <<  nextToken << endl;
+      }
+      optionalElse(); 
+      
+    }
+
     lex(); 
    
 
-
-    //Case ID = expr
+    cout << "Next Token is " << nextToken << endl;
+     //Case ID = expr
     if (nextToken == EQUAL) {
        s_ptr = symbol_ptr;
        lex();
@@ -45,20 +69,6 @@ int stmt()
        cout << "        " << symbol_ptr->getid() << "=" << value << endl;
        symbol_ptr = NULL;
     }
-    
-    //if the next token is 'if'
-    if (nextToken == IF) {
-        bool condition = cond();
-        cout << "Condition Status" << condition << endl;
-        /*
-        if (condition == true) {
-            while (nextToken != ELSE) {
-                lex();
-                int outcome = expr();
-            }
-        }*/
-    }
-  
    
 
     //if the nextoken is dump then dump the table
@@ -88,23 +98,28 @@ int expr()
     int value1 = 0;
     int value2 = 0;
    
- /* Parse the first factor */
-     value1 = term();
+    /* Parse the first factor */
+    value1 = term();
     /* As long as the next token is + or -, get the
-     next token and parse the next factor */
-     while (nextToken == ADD_OP || nextToken == SUB_OP) {
-       if(nextToken == ADD_OP){
+    next token and parse the next factor */
+    
+    while (nextToken == ADD_OP || nextToken == SUB_OP) {
+       if (nextToken == ADD_OP) {
+          //cout << "In ADD_OP" << endl;
           lex();
           value2 = term();
           value1 = value1 + value2;
-       }else if(nextToken == SUB_OP){
+       } else if(nextToken == SUB_OP){
+          //cout << "In SUB_OP" << endl;
           lex();
           value2 = term();
           value1 = value1 - value2;
-      }
-      lex();
-     }
-     return value1;
+       } else {
+          cout << "Token Error in expr()" << endl;
+       }
+       lex();
+    }
+    return value1;
 
 
 } /* End of function expr */
@@ -114,31 +129,36 @@ int expr()
  */
 int term()
 {
+    //cout << "In terms()" << endl;
     int value1 = 0;
     int value2 = 0;
 
- /* Parse the first factor */
-     value1 = negatives();
+    /* Parse the first factor */
+    value1 = negatives();
      //lex();
 
     /* As long as the next token is * or / or %, get the
      next token and parse the next factor */
      while (nextToken == MULT_OP || nextToken == DIV_OP || nextToken == MOD) {
-        if(nextToken == MULT_OP){
-          lex();
-          value2 = factor();
-          value1 = value1 * value2;
-       }else if(nextToken == DIV_OP){
-          lex();
-          value2 = factor();
-          value1 = value1 / value2;
-      }
-      else if(nextToken == MOD){
-         lex();
-         value2 = factor();
-         value1 = value1 % value2;
-      }
-      lex();
+        if (nextToken == MULT_OP){
+           //cout << "In MULT_OP" << endl;
+           lex();
+           value2 = factor();
+           value1 = value1 * value2;
+        } else if(nextToken == DIV_OP){
+           //cout << "In DIV_OP" << endl;
+           lex();
+           value2 = factor();
+           value1 = value1 / value2;
+        } else if(nextToken == MOD){
+           //cout << "In MOD" << endl;
+           lex();
+           value2 = factor();
+           value1 = value1 % value2;
+        } else {
+           cout << "Token error in term()" << endl;
+        }
+        lex();
      }
    
      return value1;
@@ -155,7 +175,8 @@ int factor()
 
     //If it is a number 
     //return it 
-    if(nextToken == INT_LIT){
+    //cout << "Next Toke in factor is: " << nextToken << endl;
+    if (nextToken == INT_LIT){
       // cout << "out of factor" << endl;
        return atoi(lexeme);
     }
@@ -195,23 +216,21 @@ int factor()
 
 //Checks for unary minus
 //if there is one then mult the value by -1
-int negatives()
-{
-  int value = 0;
+int negatives() {
+   //cout << "In Negatives" << endl;
+   int value = 0;
 
- //will return a negative number
- if(nextToken == SUB_OP){
-    lex();
-    value = powers();
-    value *= -1;
- } 
- else{
-    value = powers();
- }    
-
-  return value;
-
+   //will return a negative number
+   if (nextToken == SUB_OP){
+      lex();
+      value = powers();
+      value *= -1;
+   } else {
+      value = powers();
+   }    
+   return value;
 }
+
 //Calculate exponments
 //returns the power
 int powers()
@@ -234,37 +253,46 @@ int powers()
 }
 
 bool cond() {
-    char NT = '';
-    while (nextToken != EE || nextToken != NE || nextToken != LESSTHAN || nextToken != GREATERTHAN || nextToken != LE || nextToken != GE) {
-        lex();
-        int value1 = expr();
-        NT = nextToken;
-    }
-    while (nextToken != THEN) {
-        lex();
-        int value2 = expr();
-    }
-    if (NT == EE) {
+    char Oper;
+    int value1 = 0;
+    int value2 = 0;
+    //cout << "In condition" << endl;
+    
+    value1 = expr();
+    //cout << "LHS is" << value1 << endl;
+    //lex();
+    Oper = nextToken;
+    //cout << "Operator is " << Oper << endl;
+    lex();
+    value2 = expr();
+    //cout << "RHS is" << value2 << endl;
+    if (Oper == EE) {
+        cout << "EE" << endl;
         if (value1 == value2) {
             return true;
         } else return false;
-    } else if (NT == NE) {
+    } else if (Oper == NE) {
+        cout << "NE" << endl;
         if (value1 == value2) {
             return false;
         } else return true;
-    } else if (NT == LESSTHAN) {
+    } else if (Oper == LESSTHEN) {
+        cout << "L" << endl;
         if (value1 < value2) {
             return true;
         } else return false;
-    } else if (NT == GREATERTHAN) {
+    } else if (Oper == GREATERTHEN) {
+        cout << "G" << endl;
         if (value1 > value2) {
           return true;
         } else return false;
-    } else if (NT == LE) {
+    } else if (Oper == LE) {
+        cout << "LE" << endl;
         if (value1 <= value2) {
           return true;
         } else return false;
-    } else if (NT == GE) {
+    } else if (Oper == GE) {
+        cout << "GE" << endl;
         if (value1 >= value2) {
           return true;
         } else return false;
@@ -274,6 +302,19 @@ bool cond() {
     }
 }
 
+void optionalElse() {
+   cout << "In Optional Else" << endl;
+   if (nextToken == FI) {
+       cout << "Out of if" << endl;
+   } else if (nextToken == ELSE) {
+      cout << "In Else" << endl;
+      lex();
+      int value = stmt();
+   } else {
+      cout << "Whoops, we got a problem in optional else" << endl;
+   }
+}
+ 
 
 void error(const char *message)
 {

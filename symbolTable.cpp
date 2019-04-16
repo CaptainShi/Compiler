@@ -162,13 +162,14 @@ void Symbol_table::dump_table(void) {
 // It's based off of Brian Kernighan and Dennis Ritchie's hash function.
 // Using the pattern 131..131..131
 int Symbol_table::hash(const char* id) {
-unsigned int seed = 131;
-unsigned int hash = 0;
-unsigned int i = 0;
-for (i = 0; i < MAX_ID_LENGTH; ++id, ++i) {
-hash = (hash * seed) + (*id);
-}
-return (hash % (TABLE_SIZE-1));
+   unsigned int seed = 131;
+   unsigned int hash = 0;
+   unsigned int i = 0;
+
+   for (i = 0; i < MAX_ID_LENGTH; ++id, ++i) {
+      hash = (hash * seed) + (*id);
+   }
+   return (hash % (TABLE_SIZE-1));
 }
 
 
