@@ -1,0 +1,51 @@
+Justin Weiss, Cole Burkhart, Jacky Shi
+Each group member worked evenly. 1/3 for each student.
+
+4/23/19
+CSC4510
+BC Version 4 - Recursive Decent Parser
+
+Possible Bug: Might not be able to call while loops inside of while loops.
+
+
+Program Functions:
+  - This program is a recursive decent parser that calculates basic math
+    equations with correct precedence. It can do {+,-,*,/,%,^,unary minus}
+  - It also incorporates a symbol table to hold all the identifiers and their
+    values.
+  - It also includes functions like if and while.
+  - In the if grammar, the statement is being examined and proper actions are
+    taken if the condition is true. Optional else condition is also available
+    if more scenarios are applicable.
+  - In the while loop, if the condition is met, actions are executed as
+    outlined by according statements until the condition fails.
+
+Compile:
+  - To Compile run:   make
+      - This will created a bc file.
+  - To delete old compiler files run:   make clean
+
+Run:
+  - To run type: bc
+  - To run with I/O redirection type : bc < name_of_input_file > name_of_output_file
+
+Use:
+  - dump - prints the contents of the symbol table to the screen.
+  - quit - gracefully exits the program
+  - To input equations:
+      - ALL Equations should start with an id=equation
+      - Where the id is 1 or more character to make the identifier
+        and equation is the math expression to calculate.
+        EX: a=2+3   or  dog=4/2   or   csc=12
+  - To use functions:
+      - To use while type:
+          while <condition to run> do (then hit enter)
+          <type in equations to run> (each equation must be followed by enter)
+          done (You must type done at the end to run the while loop)
+      - To use the if type:
+          if <condition> then <equation> fi
+        - The also includes an optional else, to use type:
+          if <condition> then <equation> else <equation> fi
+        - You must include the fi at the end of the if or the function will
+          not work properly.
+        - In the <condition> you can use:  == | != | < | <= | > | >=
