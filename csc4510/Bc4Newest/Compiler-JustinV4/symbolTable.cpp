@@ -1,3 +1,11 @@
+/*
+Authors: Cole Burkhart, Jacky Shi, Justin Weiss 
+Date: 4/23/2019
+Class: CSC 4510-01
+BC Version 4 - Recursive descent parser
+Uses grammar rules to parser statement that are entered in from the keyboard or input redirection
+
+*/
 #include "symbolTable.h"
 #include "symbolNode.h"
 #include "general_ex.h"
@@ -12,7 +20,6 @@ using namespace std;
 
 Symbol_table::Symbol_table(void) {
 
-  //Symbol_node * head;
   head = new Symbol_node[TABLE_SIZE]; 
 
 
@@ -20,8 +27,6 @@ Symbol_table::Symbol_table(void) {
        head[i].next = NULL; 
     }
 
-   //initialize the table 
-   //sets everything to null
 
 }
 
@@ -44,34 +49,6 @@ Symbol_ptr Symbol_table::insert(char * identifier) {
 
    return node_ptr;
 
-
-   /*    
-    //call look up
-   //call hash function
-   int index = hash(identifier);
-   Symbol_node* p = new Symbol_node(identifier);
-
-  
-
-   //check if location if empty
-   //if it is then place node there
-   if(head[index].next == NULL){
-      head[index].next = p;
-      return head[index].next;
-   }   
-
-
-   //else go until you find an empty spot and place node there
-   else{
-      Symbol_node* start = head[index].next;
-      while(start-> next != NULL){
-         start = start->next;
-      } 
-      start->next = p;
-      return start;
-   }
-
-  */
 }
 
 void Symbol_table::remove(char * identifier) {
@@ -116,27 +93,6 @@ Symbol_ptr Symbol_table::lookup(char * identifier) {
       curr_ptr = curr_ptr->next;
  
    return curr_ptr;
-
-
-
-  /*  
-    //call the hash function until you find it
-    int index = hash(identifier);
-    Symbol_node* start = head[index].next;
-    
-    //use pointer to get the value
-    if(start == NULL)
-        return NULL;
-    
-    //return val
-    while(start != NULL){
-        if(start->id = identifier)
-            return start;
-        
-        start=start->next;
-    }
-  */
-
 }
 
 void Symbol_table::dump_table(void) {
@@ -149,12 +105,8 @@ void Symbol_table::dump_table(void) {
             cout << start->id << "=" << start->value << " "<< endl;
             start=start->next;
         }
-        //cout << endl;
     }
 
-   //print all the store nodes to screen
-
-   //check if == null if not then print
 
 }
 

@@ -1,3 +1,11 @@
+/*
+Authors: Cole Burkhart, Jacky Shi, Justin Weiss 
+Date: 4/23/2019
+Class: CSC 4510-01
+BC Version 4 - Recursive descent parser
+Uses grammar rules to parser statement that are entered in from the keyboard or input redirection
+
+*/
 #include "symbolNode.h"
 
 typedef Symbol_node * Symbol_ptr;

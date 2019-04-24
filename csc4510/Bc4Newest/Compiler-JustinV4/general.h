@@ -1,5 +1,15 @@
+/*
+Authors: Cole Burkhart, Jacky Shi, Justin Weiss 
+Date: 4/23/2019
+Class: CSC 4510-01
+BC Version 4 - Recursive descent parser
+Uses grammar rules to parser statement that are entered in from the keyboard or input redirection
+
+*/
+
 #include<string>
 using namespace std;
+
 /* Global declarations */
 /* Variables */
 char lexeme [100];
@@ -9,7 +19,7 @@ string program;
 int curr_index;
 int string_index;
 bool inwhile;
-//FILE *in_fp, *fopen();
+
 /* Function declarations */
 extern void addChar();
 extern char getString();
